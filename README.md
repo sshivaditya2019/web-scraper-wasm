@@ -3,6 +3,9 @@
 A API based web scraper, written in Rust and compiled to WASM. Then deployed to a serverless function on Cloudflare Workers. This uses github OAuth to authenticate the user and issue client id and client secret.
 The user can then use their client id, client secret and uuid, to generate a JWT token. This token can be used to access the API. The API can be used to scrape the web and return the data in JSON format.
 
+## Deployed
+- [WASM API](https://api.shivadityas.com)
+
 ## Usage
 - Navigate to the deployed root and go the `/oauth` endpoint.
 - Click on the `Authorize` button and login with your github account.
