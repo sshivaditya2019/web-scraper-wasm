@@ -1,41 +1,41 @@
-# Getting Started
+# WASM Based API
 
-A template for kick starting a Cloudflare worker project using [`workers-rs`](https://github.com/cloudflare/workers-rs).
+A API based web scraper, written in Rust and compiled to WASM. Then deployed to a serverless function on Cloudflare Workers. This uses github OAuth to authenticate the user and issue client id and client secret.
+The user can then use their client id, client secret and uuid, to generate a JWT token. This token can be used to access the API. The API can be used to scrape the web and return the data in JSON format.
 
-This template is designed for compiling Rust to WebAssembly and publishing the resulting worker to 
-Cloudflare's [edge infrastructure](https://www.cloudflare.com/network/).
+## Usage
+- Navigate to the deployed root and go the `/oauth` endpoint.
+- Click on the `Authorize` button and login with your github account.
+- After logging in, you will be redirected to the `/callback/github` endpoint.
+- Copy the `client_id`, `client_secret` and `uuid` from the URL.
+- Use the `/authorize` endpoint to generate a JWT token.
+- Use the token to access the `/api/scrape` endpoint.
 
-## Usage 
+## Endpoints
 
-This template starts you off with a `src/lib.rs` file, acting as an entrypoint for requests hitting
-your Worker. Feel free to add more code in this file, or create Rust modules anywhere else for this
-project to use. 
+### /authorize
+- Method: POST
+- Description: This endpoint is used to authenticate the user and issue client id and client secret.
+- Request Body:
+  - `client_id`: String
+  - `client_secret`: String
+  - `uuid`: String
+- Response:
+    - `Token`: String
+    - `Type`: String
 
-With `wrangler`, you can build, test, and deploy your Worker with the following commands: 
-
-```bash
-# compiles your project to WebAssembly and will warn of any issues
-wrangler build 
-
-# run your Worker in an ideal development workflow (with a local server, file watcher & more)
-wrangler dev
-
-# deploy your Worker globally to the Cloudflare network (update your wrangler.toml file for configuration)
-wrangler publish
-```
-
-Read the latest `worker` crate documentation here: https://docs.rs/worker
-
-## WebAssembly
-
-`workers-rs` (the Rust SDK for Cloudflare Workers used in this template) is meant to be executed as 
-compiled WebAssembly, and as such so **must** all the code you write and depend upon. All crates and
-modules used in Rust-based Workers projects have to compile to the `wasm32-unknown-unknown` triple. 
-
-Read more about this on the [`workers-rs` project README](https://github.com/cloudflare/workers-rs).
-
-## Issues
-
-If you have any problems with the `worker` crate, please open an issue on the upstream project 
-issue tracker on the [`workers-rs` repository](https://github.com/cloudflare/workers-rs).
-
+### /api/scrape
+- Method: GET
+- Description: This endpoint is used to scrape the web and return the data in JSON format.
+- Request Headers:
+  - `Authorization`: String
+- Response:
+  - `Result`: JSON
+  Each article will have the following fields:
+    - `Title`: String
+    - `Link`: String
+    - `Time`: String
+    - `Author`: String
+    - `Source Link`: String
+    - `Source Name`: String
+    - `Image Link`: String (Optional)

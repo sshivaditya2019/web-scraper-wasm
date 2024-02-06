@@ -1,13 +1,17 @@
-name = "{{project-name}}"
+name = "web-scraper"
 type = "javascript"
 workers_dev = true
 compatibility_date = "2022-01-20"
+
+kv_namespaces = [
+    { binding = "AUTH", id = "03e021ddb0484e6a94d02938d9944e11" }
+]
 
 [vars]
 WORKERS_RS_VERSION = "0.0.9"
 
 [build]
-command = "cargo install -q worker-build && worker-build --release" # required
+command = "cargo install -q worker-build --version ^0.0.8 && worker-build --release" # required
 
 [build.upload]
 dir = "build/worker"
@@ -17,6 +21,7 @@ main = "./shim.mjs"
 [[build.upload.rules]]
 globs = ["**/*.wasm"]
 type = "CompiledWasm"
+
 
 # read more about configuring your Worker via wrangler.toml at:
 # https://developers.cloudflare.com/workers/cli-wrangler/configuration

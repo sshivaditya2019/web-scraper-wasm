@@ -10,3 +10,10 @@ cfg_if! {
         pub fn set_panic_hook() {}
     }
 }
+
+
+//Custom RouteContext with Cookie Variables
+pub struct RouteContext2<T> {
+    pub state: T,
+    pub cookies: Vec<String>,
+}
